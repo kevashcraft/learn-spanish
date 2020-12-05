@@ -1,0 +1,19 @@
+version: '3.6'
+services:
+  app:
+    build:
+      context: ../
+      dockerfile: build/development.dockerfile
+    ports:
+      - 28080:8080
+    volumes:
+      - ../app/src:/app/src
+      - ../app/public:/app/public
+
+  bash:
+    build:
+      context: ../
+      dockerfile: build/development.dockerfile
+    volumes:
+      - ../app:/app
+      - ../secrets:/secrets

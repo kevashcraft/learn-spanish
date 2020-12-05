@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .selected {
+            border: 2px solid orange;
+        }
+    </style>
+</head>
+<body>
+    <div id='app'>
+        <select v-model="deckNameNS">
+            <option v-for="deck in deckList" :value="deck.nameNS">{{deck.name}}</option>
+        </select>
+        <div v-for="card, cardKey in cards">
+            <div>{{card.answer}} - {{card.question}}</div>
+            <audio controls :src="card.audio"></audio>
+            <span v-for="img, imgHash in card.images">
+                <!-- <img :src="img.gifImg" /> -->
+                <img :src="img.data" height="150" width="150" @click="selectImg(cardKey, imgHash)" :class="{ selected: img.selected }" />
+            </span>
+        </div>
+        <div>
+            <button @click="saveDeck">Save</button>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var deckName = '5Nouns'
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!',
+                deckList: [],
+                deckNameNS: '',
+                cards: []
+            },
+            watch: {
+                async deckNameNS (deckNameNS) {
+                    let req = await axios.get('/decks/' + deckNameNS)
+                    // let decks = Object.keys(req.data).map(key => req.data[key])
+                    console.log("req.data", req.data)
+                    this.cards = req.data
+
+                }
+            },
+            methods: {
+                selectImg (cardKey, imgHash) {
+                    Object.keys(this.cards[cardKey].images).forEach(imgKey => {
+                        this.cards[cardKey].images[imgKey].selected = false
+                    })
+                    this.cards[cardKey].images[imgHash].selected = true
+                },
+                saveDeck () {
+                    let selections = {}
+                    if (Object.keys(this.cards).length) {
+                        Object.keys(this.cards).forEach(cardKey => {
+                            Object.keys(this.cards[cardKey].images).forEach(imgKey => {
+                                if (this.cards[cardKey].images[imgKey].selected) {
+                                    selections[cardKey] = imgKey
+                                }
+                            })
+                        })
+                    }
+                    axios.post('/decks/' + this.deckNameNS, selections)
+                },
+            },
+            async created () {
+                let req = await axios.get('/decklist')
+                let decks = Object.keys(req.data).map(key => req.data[key])
+                this.deckList = decks
+                // console.log("cards", req.data)
+                // this.cards = cardsReq.data
+            }
+        })        
+    </script>
+</body>
+</html>

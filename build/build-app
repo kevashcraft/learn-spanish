@@ -1,0 +1,6 @@
+#!/bin/bash
+cd /app
+cp public/index.html public/index.html.bak
+cp public/cordova-index.html public/index.html
+npm run build
+mv public/index.html.bak public/index.html
