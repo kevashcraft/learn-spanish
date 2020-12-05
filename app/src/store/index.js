@@ -192,13 +192,13 @@ export default new Vuex.Store({
               if (ext === 'jpe') ext = 'jpg'
 
               let blobData = await fetchRes.blob()
-              const fileURL = await this.writeFile(deck.nameNS, cardKey + ext, blobData, true)
-              deck[cardKey].image = fileURL
+              const fileURL = await writeFile(deck.nameNS, cardKey + ext, blobData, true)
+              deckData[cardKey].image = fileURL
             } catch(error) {
               console.log("could not save file", cardKey, error)
             }
           }
-          await writeFile(deck.nameNS, filename, deck)
+          await writeFile(deck.nameNS, filename, deckData)
         }
       }
 

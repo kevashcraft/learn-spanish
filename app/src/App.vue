@@ -29,7 +29,7 @@ export default {
     DownloadProgress
   },
 
-  computed: mapState(['darkTheme']),
+  computed: mapState(['isApp', 'darkTheme']),
 
   watch: {
     darkTheme () {
@@ -38,22 +38,33 @@ export default {
   },
 
   async mounted () {
-    this.$store.commit('setDownloadProgress', -1)
-    this.$store.commit('setProposedDeck', {})
-
-    await this.$store.dispatch('getDeckList')
-
-    if (!this.$store.state.deck.name) {
-      const deckList = this.$store.state.deckList
-      const deck = deckList[Object.keys(deckList)[0]]
-      await this.$store.dispatch('deckChange', deck)
+    if (this.isApp) {
+      document.addEventListener('deviceReady', this.init)
     } else {
-      this.$store.commit('initDeckDownloaded')
-      await this.$store.dispatch('deckChange', this.$store.state.deck)
+      this.init()
     }
   },
 
   methods: {
+    async init () {
+      this.$store.commit('setDownloadProgress', -1)
+      this.$store.commit('setProposedDeck', {})
+
+      await this.$store.dispatch('getDeckList')
+
+      if (!this.$store.state.deck.name) {
+        const deckList = this.$store.state.deckList
+        for (let idx=0; idx<5; idx++) {
+          const deck = deckList[Object.keys(deckList)[idx]]
+          if (deck.type === 'gifs') continue
+          await this.$store.dispatch('deckChange', deck)
+          break
+        }
+      } else {
+        this.$store.commit('initDeckDownloaded')
+        await this.$store.dispatch('deckChange', this.$store.state.deck)
+      }
+    }
   }
 
 };

@@ -15,11 +15,12 @@ RUN cd /tmp && \
 
 RUN mkdir -p /cordova
 WORKDIR /cordova
-RUN cordova create spanish com.kevapps.learn_spanish spanish
+RUN cordova create spanish com.kevapps.spanish_photo_flash spanish
 
 WORKDIR /cordova/spanish
 RUN cordova telemetry off
 RUN cordova platform add android
+RUN cordova plugin add cordova-plugin-file
 RUN cordova build; exit 0
 
 RUN mkdir -p /dist # mounted volume

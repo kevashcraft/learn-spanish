@@ -152,6 +152,7 @@ async function main () {
         await saveData(selectedDeckNameNS + '.json', selectedDeck)
         await saveData(selectedDeckNameNS + '.json', outputDeck, true)
 
+        console.log('DATA SAVED!')
         res.sendStatus(200)
     })
     console.log("serving")

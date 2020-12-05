@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="opened">
+  <v-dialog v-model="opened" max-width="450px">
     <v-card elevation="4" outlined>
       <v-card-title>Downloading Flashcard Data</v-card-title>
       <v-card-text>

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="opened" persistent>
+  <v-dialog v-model="opened" persistent max-width="450px">
     <v-card>
       <v-card-title>Download GIF Deck?</v-card-title>
       <v-card-text>
