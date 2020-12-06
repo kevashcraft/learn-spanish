@@ -72,7 +72,7 @@ export default new Vuex.Store({
     questionViewCounts: {},
 
     sortMethod: 'alpha',
-    showHints: 'onTap',
+    showHints: 'always',
     showAnswers: 'onTap',
 
     audioEnabled: true,
