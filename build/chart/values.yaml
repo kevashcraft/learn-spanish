@@ -59,6 +59,7 @@ ingress:
       hosts:
         - learn-spanish.kevapps.com
         - spanish.kevapps.com
+        - spanish-photo-flash.kevapps.com
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
