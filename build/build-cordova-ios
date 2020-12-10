@@ -1,0 +1,13 @@
+/bin/build-app
+rm -rf /cordova-ios/*
+cd /cordova-ios
+cordova create spanish com.kevapps.spanish_photo_flash "Spanish"
+cd spanish
+cordova platform add ios
+cordova plugin add cordova-plugin-file
+cp /res/icon.png ./
+cp /res/splash.png ./
+cordova-icon
+cordova-splash
+rm -rf www
+mv /app/dist www

@@ -2,11 +2,12 @@ FROM node:12.3.1-stretch as builder
 
 RUN echo "hello"
 
-RUN npm i -g @vue/cli cordova cordova-icon
+RUN npm i -g @vue/cli cordova cordova-icon cordova-splash
 
 RUN apt-get update
 RUN apt-get install -y default-jdk-headless
 RUN apt-get install -y android-sdk
+RUN apt-get install -y imagemagick
 
 RUN cd /tmp && \
   git clone https://github.com/Shadowstyler/android-sdk-licenses.git && \
@@ -42,5 +43,6 @@ COPY ./res res
 
 COPY ./build/build-app /bin/
 COPY ./build/build-apk /bin/
+COPY ./build/build-cordova-ios /bin/
 
 # keytool -genkey -v -keystore learn-spanish.keystore -alias learn-spanish -keyalg RSA -keysize 2048 -validity 20000

@@ -31,9 +31,12 @@ cordova_build: build
 cordova: cordova_build
 	docker run \
 			-it \
+			-v $(shell pwd)/cordova-ios:/cordova-ios \
 			-v $(shell pwd)/dist:/dist \
+			-v $(shell pwd)/res:/res \
 			-v $(shell pwd)/app/src:/app/src \
 			-v $(shell pwd)/app/public:/app/public \
+			-v $(shell pwd)/build/config-ios.xml:/cordova/spanish/config-ios.xml \
 			-v $(shell pwd)/build/config.xml:/cordova/spanish/config.xml \
 								spanish_cordova bash
 

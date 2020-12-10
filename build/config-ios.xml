@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.kevapps.spanish_photo_flash" version="1.0.13" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Spanish</name>
+    <description>
+        Learn Spanish Flashcards with Pictures
+    </description>
+    <author email="kevin@kevashcraft.com" href="https://www.kevashcraft.com">
+        Kevin Ashcraft
+    </author>
+    <preference name="Orientation" value="portrait" />
+    <content src="index.html" />
+    <!-- <icon src="res/android/ldpi.png" density="ldpi" /> -->
+    <icon src="res/mipmap-hdpi/ic_launcher.png" density="mdpi" />
+    <icon src="res/mipmap-hdpi/ic_launcher.png" density="hdpi" />
+    <icon src="res/mipmap-xhdpi/ic_launcher.png" density="xhdpi" />
+    <icon src="res/mipmap-xxhdpi/ic_launcher.png" density="xxhdpi" />
+    <icon src="res/mipmap-xxxhdpi/ic_launcher.png" density="xxxhdpi" /><!-- <icon src="www/icon.png" /> -->
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+</widget>
