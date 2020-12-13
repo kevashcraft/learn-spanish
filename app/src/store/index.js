@@ -62,6 +62,9 @@ function  shuffleArray(array) {
 export default new Vuex.Store({
   state: {
     isApp: !!window.cordova,
+    prevActiveDate: '',
+    globalCardCount: 0,
+    activeCardCount: 0,
 
     deckList: {},
     proposedDeck: {},
@@ -123,8 +126,21 @@ export default new Vuex.Store({
         state.cardIdx += 1
       }
     }, 
+    prevCard (state) {
+      if (state.cardIdx < 1) {
+        state.cardIdx = Object.keys(cards).length - 1
+      } else {
+        state.cardIdx -= 1
+      }
+    }, 
+    resetActiveCardCount (state) {
+      state.activeCardCount = 0
+    },
     setCardIdx (state, cardIdx) {
       state.cardIdx = cardIdx
+    },
+    setPrevActiveDate (state, prevActiveDate) {
+      state.prevActiveDate = prevActiveDate
     },
     setSortMethod (state, sortMethod) {
       state.sortMethod = sortMethod
@@ -140,7 +156,7 @@ export default new Vuex.Store({
     },
     toggleDarkTheme (state) {
       state.darkTheme = !state.darkTheme
-    }
+    },
   },
   actions: {
     // downloadDeck({ commit, state }) {
@@ -245,9 +261,14 @@ export default new Vuex.Store({
     card (state) {
       const card = cards[state.cardIdx]
       if (!card) return []
+      state.activeCardCount += 1
+      state.globalCardCount += 1
       if (!state.questionViewCounts[card.question]) state.questionViewCounts[card.question] = 0
       state.questionViewCounts[card.question]++
       return [card]
+    },
+    cardProgress (state) { 
+      return Math.ceil(state.cardIdx / (Object.keys(cards).length - 1) * 100)
     }
   },
   plugins: [vuexLocal.plugin]

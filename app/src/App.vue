@@ -3,6 +3,7 @@
     <v-container class="fill-height" style="padding: 0; max-width: 450px">
       <v-row class="fill-height flex-column">
         <FlashCards class="flex-grow-1" />
+        <ProgressBars class="flex-grow-0" />
         <ActionBar class="flex-grow-0" @deckSelected="changeDeck(deckName)"/>
       </v-row>
     </v-container>
@@ -14,10 +15,12 @@
 <script>
 import ActionBar from './components/ActionBar'
 import FlashCards from './components/FlashCards'
+import ProgressBars from './components/ProgressBars'
 import ConfirmDownload from './components/ConfirmDownload'
 import DownloadProgress from './components/DownloadProgress'
 
 import { mapState } from 'vuex'
+import moment from 'moment'
 
 export default {
   name: 'App',
@@ -25,6 +28,7 @@ export default {
   components: {
     ActionBar,
     FlashCards,
+    ProgressBars,
     ConfirmDownload,
     DownloadProgress
   },
@@ -49,6 +53,11 @@ export default {
     async init () {
       this.$store.commit('setDownloadProgress', -1)
       this.$store.commit('setProposedDeck', {})
+
+      if (!this.$store.state.prevActiveDate || moment().diff(moment(this.$store.state.prevActiveDate), 'days') > 1) {
+        this.$store.commit('resetActiveCardCount')
+      }
+      this.$store.commit('setPrevActiveDate', moment().format('YYYY-MM-DD'))
 
       await this.$store.dispatch('getDeckList')
 

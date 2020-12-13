@@ -1,7 +1,7 @@
 <template>
   <v-container style="height: 55px; padding: 0 55px">
     <v-row class="justify-space-between align-center fill-height">
-      <v-menu>
+      <v-menu top :offset-y="true" :nudge-top="15">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-image-multiple</v-icon>
@@ -24,7 +24,7 @@
         </v-list>
       </v-menu>
 
-      <v-menu>
+      <v-menu top :offset-y="true" :nudge-top="15">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
             <v-icon v-show="sortMethod === 'alpha'">mdi-sort-alphabetical-ascending-variant</v-icon>
@@ -65,7 +65,7 @@
         </v-list>
       </v-menu>
 
-      <v-menu>
+      <v-menu top :offset-y="true" :nudge-top="15">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-menu</v-icon>

@@ -1,5 +1,11 @@
 <template>
   <v-container class="elevation-6" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0" @click="action">
+    <v-btn icon style="position: absolute; top: 15px; left: 15px" @click="prevCard">
+      <v-icon>mdi-arrow-left</v-icon>
+    </v-btn>
+    <v-btn text style="position: absolute; top: 15px; right: 15px" @click="prevCard">
+      <span style="color: rgba(0, 0, 0, .54)">{{ activeCardCount }}</span>
+    </v-btn>
     <v-row class="flex-column fill-height" dense>
       <v-row class="flex-grow-0 justify-center align-end question">
         <p :class="{'smaller-text': hasBigWord(card.question)}">{{ card.question }}</p>
@@ -22,7 +28,7 @@
     text-transform: lowercase;
     line-height: 3.5rem;
     font-size: 3.5rem;
-    margin: 0;
+    margin: 15px;
     font-weight: bold;
     text-align: center;
     user-select: none;
@@ -66,14 +72,14 @@
 </style>
 
 <script>
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   name: 'FlashCard',
   props: {
     card: Object
   },
-  computed: mapState(['audioEnabled', 'showHints', 'showAnswers']),
+  computed: mapState(['audioEnabled', 'showHints', 'showAnswers', 'activeCardCount']),
   watch: {
     audioEnabled (enabled) {
       if (!enabled) {
@@ -103,17 +109,18 @@ export default {
     this.$refs['audio'].pause()
   },
   methods: {
+    ...mapMutations(['nextCard', 'prevCard']),
     action () {
       if (this.blurHint && this.showHints === 'onTap') {
         this.blurHint = false
       } else if (this.blurAnswer && this.showAnswers === 'onTap') {
         this.blurAnswer = false
       } else {
-        this.$store.commit('nextCard')
+        this.nextCard()
       }
     },
     hasBigWord(text) {
-      return text.split(' ').some(w => w.length > 10)
+      return text.length > 15 || text.split(' ').some(w => w.length > 10)
     }
   },
   data: () => ({
