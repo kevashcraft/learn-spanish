@@ -194,6 +194,7 @@ export default new Vuex.Store({
     },
     toggleTestModeEnabled (state) {
       state.testModeEnabled = !state.testModeEnabled
+      if (!state.testModeEnabled) state.testMode = false
     },
   },
   actions: {
@@ -317,7 +318,7 @@ export default new Vuex.Store({
       } else {
         state.activeCardCount += 1
         state.globalCardCount += 1
-        if (state.isApp && state.globalCardCount % 100 === 0 && state.activeCardCount > 5) {
+        if (state.isApp && state.globalCardCount % 98 === 0 && state.activeCardCount > 7) {
           if (state.dialog === 'none' && state.rateUsDialogEnabled) {
             state.dialog = 'rateUs'
           }

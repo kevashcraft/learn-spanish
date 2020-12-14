@@ -33,7 +33,7 @@
 <script>
 import { mapGetters, mapMutations, mapState } from 'vuex'
 
-/* global device */
+/* NOTglobal device */
 
 export default {
   name: 'RateUsDialog',
@@ -44,8 +44,8 @@ export default {
   },
 
   mounted () {
-    this.androidApp = this.isApp && device.platform === 'Android'
-    this.iOSApp = this.isApp && device.platform === 'iOS'
+    // this.androidApp = this.isApp && device.platform === 'Android'
+    // this.iOSApp = this.isApp && device.platform === 'iOS'
   },
 
   watch: {
@@ -77,7 +77,7 @@ export default {
   },
 
   data: () => ({
-    androidApp: false,
+    androidApp: true,
     iOSApp: false,
     opened: false
   }),
