@@ -22,6 +22,7 @@ WORKDIR /cordova/spanish
 RUN cordova telemetry off
 RUN cordova platform add android
 RUN cordova plugin add cordova-plugin-file
+RUN cordova plugin add cordova-plugin-device
 RUN cordova build; exit 0
 
 RUN mkdir -p /dist # mounted volume

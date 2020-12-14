@@ -9,6 +9,11 @@
     </v-container>
     <ConfirmDownload />
     <DownloadProgress />
+    <WelcomeDialog />
+    <FirstTestDialog />
+    <TestCompleteDialog />
+    <RateUsDialog />
+    <AppDownloadSnackbar />
   </v-app>
 </template>
 
@@ -18,6 +23,11 @@ import FlashCards from './components/FlashCards'
 import ProgressBars from './components/ProgressBars'
 import ConfirmDownload from './components/ConfirmDownload'
 import DownloadProgress from './components/DownloadProgress'
+import WelcomeDialog from './components/WelcomeDialog'
+import FirstTestDialog from './components/FirstTestDialog'
+import TestCompleteDialog from './components/TestCompleteDialog'
+import RateUsDialog from './components/RateUsDialog'
+import AppDownloadSnackbar from './components/AppDownloadSnackbar'
 
 import { mapState } from 'vuex'
 import moment from 'moment'
@@ -30,7 +40,12 @@ export default {
     FlashCards,
     ProgressBars,
     ConfirmDownload,
-    DownloadProgress
+    DownloadProgress,
+    WelcomeDialog,
+    FirstTestDialog,
+    TestCompleteDialog,
+    RateUsDialog,
+    AppDownloadSnackbar
   },
 
   computed: mapState(['isApp', 'darkTheme']),
@@ -42,6 +57,22 @@ export default {
   },
 
   async mounted () {
+    this.$store.commit('setDownloadProgress', -1)
+    this.$store.commit('setProposedDeck', {})
+    this.$store.commit('setDialog', 'none')
+    setTimeout(() => {
+      if (!this.$store.state.welcomeDialogDisplayed) {
+        this.$store.commit('setDialog', 'welcome')
+      }
+    }, 500)
+
+    if (!this.$store.state.prevActiveDate || moment().diff(moment(this.$store.state.prevActiveDate), 'days') > 1) {
+      this.$store.commit('resetActiveCardCount')
+    }
+    this.$store.commit('setPrevActiveDate', moment().format('YYYY-MM-DD'))
+
+    await this.$store.dispatch('getDeckList')
+
     if (this.isApp) {
       document.addEventListener('deviceReady', this.init)
     } else {
@@ -51,16 +82,6 @@ export default {
 
   methods: {
     async init () {
-      this.$store.commit('setDownloadProgress', -1)
-      this.$store.commit('setProposedDeck', {})
-
-      if (!this.$store.state.prevActiveDate || moment().diff(moment(this.$store.state.prevActiveDate), 'days') > 1) {
-        this.$store.commit('resetActiveCardCount')
-      }
-      this.$store.commit('setPrevActiveDate', moment().format('YYYY-MM-DD'))
-
-      await this.$store.dispatch('getDeckList')
-
       if (!this.$store.state.deck.name) {
         const deckList = this.$store.state.deckList
         for (let idx=0; idx<5; idx++) {

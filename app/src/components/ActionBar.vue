@@ -14,7 +14,8 @@
             @click="deckChange(d)"
             :class="d.name === deck.name ? 'deck-selected' : ''">
             <v-list-item-content>
-              <v-list-item-title v-text="d.name"></v-list-item-title>
+              <v-list-item-title v-text="d.name" style="font-weight: 500"></v-list-item-title>
+              <v-list-item-subtitle v-if="d.bestScore" :style="getBestScoreStyle(d.bestScore)">{{d.bestScore}}%</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-icon>
               <v-icon v-if="!d.downloaded">mdi-cloud-download</v-icon>
@@ -80,6 +81,15 @@
           <v-list-item @click="toggleDarkTheme">
             <v-list-item-title v-show="darkTheme">Light Theme</v-list-item-title>
             <v-list-item-title v-show="!darkTheme">Dark Theme</v-list-item-title>
+          </v-list-item>
+          <v-divider></v-divider>
+          <v-subheader style="color: #2995fe"><strong>Test Mode</strong></v-subheader>
+          <v-list-item @click="toggleTestModeEnabled">
+            <v-list-item-title v-show="testModeEnabled">Turn Tests Off</v-list-item-title>
+            <v-list-item-title v-show="!testModeEnabled">Turn Tests On</v-list-item-title>
+          </v-list-item>
+          <v-list-item v-show="!testCompleteDialogEnabled" @click="enableTestDialog">
+            <v-list-item-title>Reenable Test Complete Dialog</v-list-item-title>
           </v-list-item>
           <v-divider></v-divider>
           <v-subheader style="color: #2995fe"><strong>Show Images</strong></v-subheader>
@@ -154,6 +164,7 @@ export default {
   computed: {
     ...mapState([
       'audioEnabled', 'darkTheme', 'deckList', 'deck',
+      'testModeEnabled', 'testCompleteDialogEnabled',
       'showAnswers', 'showHints', 'sortMethod'
     ])
   },
@@ -161,8 +172,26 @@ export default {
     ...mapActions(['deckChange', 'sortCards']),
     ...mapMutations([
       'setShowAnswers', 'setShowHints',
-      'toggleAudioEnabled', 'toggleDarkTheme'
+      'toggleAudioEnabled', 'toggleDarkTheme',
+      'toggleTestModeEnabled',
+      'setGeneric'
     ]),
+    getBestScoreStyle(bestScore) {
+      if (!bestScore) return {}
+      if (bestScore < 60) {
+        return {color:  'red'}
+      } 
+      if (bestScore < 80) {
+        return {color:  'orange'}
+      } 
+      if (bestScore < 100) {
+        return {color:  'yellow'}
+      } 
+      return {color:  'blue'}
+    },
+    enableTestDialog () {
+      this.setGeneric({prop: 'testCompleteDialogEnabled', value: true})
+    }
   },
   mounted (){
     console.log('this.deckList', JSON.stringify(this.deckList))

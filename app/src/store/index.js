@@ -66,6 +66,12 @@ export default new Vuex.Store({
     globalCardCount: 0,
     activeCardCount: 0,
 
+    welcomeDialogDisplayed: false,
+    firstTestDialogDisplayed: false,
+    testCompleteDialogEnabled: true,
+    rateUsDialogEnabled: true,
+    dialog: 'none',
+
     deckList: {},
     proposedDeck: {},
     downloadProgress: -1,
@@ -74,14 +80,24 @@ export default new Vuex.Store({
     cardIdx: 0,
     questionViewCounts: {},
 
+    testMode: false,
+    scores: [],
+    
     sortMethod: 'alpha',
     showHints: 'always',
     showAnswers: 'onTap',
 
     audioEnabled: true,
-    darkTheme: false
+    darkTheme: false,
+    testModeEnabled: true
   },
   mutations: {
+    addScore (state, score) {
+      state.scores.push(score)
+    },
+    setGeneric (state, {prop, value}) {
+      state[prop] = value
+    },
     setDeckList (state, deckList) {
       const localDeckList = {...state.deckList}
       // update local deck list
@@ -95,6 +111,9 @@ export default new Vuex.Store({
         }
       }
       state.deckList = deckList
+    },
+    setDialog (state, dialog) {
+      state.dialog = dialog
     },
     setDownloadProgress (state, downloadProgress) {
       if (downloadProgress > 100) downloadProgress = 100
@@ -121,6 +140,19 @@ export default new Vuex.Store({
     },
     nextCard (state) {
       if (state.cardIdx >= Object.keys(cards).length - 1) {
+        if (state.testModeEnabled) {
+          if (state.testMode) {
+            const score = Math.round(state.scores.filter(score => score).length / state.scores.length * 100)
+            if (!state.deckList[state.deck.name].bestScore || score > state.deckList[state.deck.name].bestScore) {
+              state.deckList[state.deck.name].bestScore = score
+            }
+            if (state.testCompleteDialogEnabled) state.dialog = 'testComplete'
+          } else {
+            if (!state.testCompleteDialogEnabled) state.dialog = 'firstTest'
+            state.scores = []
+          }
+          state.testMode = !state.testMode
+        }
         state.cardIdx = 0
       } else {
         state.cardIdx += 1
@@ -151,11 +183,17 @@ export default new Vuex.Store({
     setShowAnswers (state, showAnswers) {
       state.showAnswers = showAnswers
     },
+    setTestMode (state, testMode) {
+      state.testMode = testMode
+    },
     toggleAudioEnabled (state) {
       state.audioEnabled = !state.audioEnabled
     },
     toggleDarkTheme (state) {
       state.darkTheme = !state.darkTheme
+    },
+    toggleTestModeEnabled (state) {
+      state.testModeEnabled = !state.testModeEnabled
     },
   },
   actions: {
@@ -175,6 +213,7 @@ export default new Vuex.Store({
       }
     },
     async deckChange({ commit, dispatch, state }, deck) {
+      commit('setTestMode', false)
       const filename = deck.nameNS + '.json'
       // if not loaded
       if (!deck.downloaded) {
@@ -261,14 +300,40 @@ export default new Vuex.Store({
     card (state) {
       const card = cards[state.cardIdx]
       if (!card) return []
-      state.activeCardCount += 1
-      state.globalCardCount += 1
-      if (!state.questionViewCounts[card.question]) state.questionViewCounts[card.question] = 0
-      state.questionViewCounts[card.question]++
+      if (state.testMode) {
+        const imageIdxs = [...Array(cards.length).keys()]
+        imageIdxs.splice(state.cardIdx, 1)
+        shuffleArray(imageIdxs)
+        card.correctAnswerIdx = Math.floor(Math.random() * 4)
+        card.answerOptions = []
+        for (let idx=0; idx<4; idx++) {
+          if (idx === card.correctAnswerIdx) {
+            card.answerOptions.push(card.image)
+          } else {
+            const optionIdx = imageIdxs.pop()
+            card.answerOptions.push(cards[optionIdx].image)
+          }
+        }
+      } else {
+        state.activeCardCount += 1
+        state.globalCardCount += 1
+        if (state.isApp && state.globalCardCount % 100 === 0 && state.activeCardCount > 5) {
+          if (state.dialog === 'none' && state.rateUsDialogEnabled) {
+            state.dialog = 'rateUs'
+          }
+        }
+        if (!state.questionViewCounts[card.question]) state.questionViewCounts[card.question] = 0
+        state.questionViewCounts[card.question]++
+      }
       return [card]
     },
     cardProgress (state) { 
       return Math.ceil(state.cardIdx / (Object.keys(cards).length - 1) * 100)
+    },
+    score (state) {
+      if (!state.scores.length) return 0
+      return Math.round(state.scores.filter(score => score).length / state.scores.length * 100)
+
     }
   },
   plugins: [vuexLocal.plugin]
