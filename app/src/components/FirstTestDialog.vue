@@ -6,8 +6,8 @@
       </v-card-title>
       <v-card-text>
         <v-row>
-          <v-col cols="4">
-            <img src="@/assets/test-robot.png">
+          <v-col cols="4" style="position: relative">
+            <img src="@/assets/test-robot.png" style="max-width: 95%">
           </v-col>
           <v-col cols="8" style="font-size: 18px">
             <p>
@@ -43,7 +43,7 @@ export default {
     },
     opened (opened) {
       if (!opened) {
-        this.setGeneric({prop: 'testCompleteDialogEnabled', value: true})
+        this.setGeneric({prop: 'firstTestDialogDisplayed', value: true})
         this.setGeneric({prop: 'dialog', value: 'none'})
       }
     }

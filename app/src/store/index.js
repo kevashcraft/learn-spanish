@@ -148,7 +148,7 @@ export default new Vuex.Store({
             }
             if (state.testCompleteDialogEnabled) state.dialog = 'testComplete'
           } else {
-            if (!state.testCompleteDialogEnabled) state.dialog = 'firstTest'
+            if (!state.firstTestDialogDisplayed) state.dialog = 'firstTest'
             state.scores = []
           }
           state.testMode = !state.testMode

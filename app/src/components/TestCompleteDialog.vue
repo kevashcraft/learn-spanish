@@ -6,8 +6,8 @@
       </v-card-title>
       <v-card-text>
         <v-row>
-          <v-col cols="4">
-            <img src="@/assets/test-complete-robot.png">
+          <v-col cols="4" style="position: relative">
+            <img src="@/assets/test-complete-robot.png" style="max-width: 95%">
           </v-col>
           <v-col cols="8" style="font-size: 18px">
             <p>
