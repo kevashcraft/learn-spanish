@@ -91,6 +91,9 @@
           <v-list-item v-show="!testCompleteDialogEnabled" @click="enableTestDialog">
             <v-list-item-title>Reenable Test Complete Dialog</v-list-item-title>
           </v-list-item>
+          <v-list-item @click="showDebug">
+            <v-list-item-title>Expand View</v-list-item-title>
+          </v-list-item>
           <v-divider></v-divider>
           <v-subheader style="color: #2995fe"><strong>Show Images</strong></v-subheader>
           <v-list-item @click="setShowHints('always')">
@@ -176,6 +179,9 @@ export default {
       'toggleTestModeEnabled',
       'setGeneric'
     ]),
+    showDebug () {
+      this.$emit('showDebug')
+    },
     getBestScoreStyle(bestScore) {
       if (!bestScore) return {}
       if (bestScore < 60) {

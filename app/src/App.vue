@@ -4,7 +4,8 @@
       <v-row class="fill-height flex-column">
         <FlashCards class="flex-grow-1" />
         <ProgressBars class="flex-grow-0" />
-        <ActionBar class="flex-grow-0" @deckSelected="changeDeck(deckName)"/>
+        <ActionBar class="flex-grow-0" @showDebug="showDebug" />
+        <!-- <ActionBar class="flex-grow-0" @deckSelected="showDebug()"/> -->
       </v-row>
     </v-container>
     <ConfirmDownload />
@@ -14,6 +15,14 @@
     <TestCompleteDialog />
     <RateUsDialog />
     <AppDownloadSnackbar />
+    <v-dialog v-model="showDebugDialog" max-width="350px">
+      <v-card outlined elevation="6">
+        <v-card-title>Expanded View</v-card-title>
+        <v-card-text>
+          <p v-html="debugInfo"></p>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -48,6 +57,10 @@ export default {
     AppDownloadSnackbar
   },
 
+  data: () => ({
+    showDebugDialog: false,
+    debugInfo: ''
+  }),
   computed: mapState(['isApp', 'darkTheme']),
 
   watch: {
@@ -57,6 +70,7 @@ export default {
   },
 
   async mounted () {
+    window.debugInfo = []
     this.$store.commit('setDownloadProgress', -1)
     this.$store.commit('setProposedDeck', {})
     this.$store.commit('setDialog', 'none')
@@ -81,6 +95,10 @@ export default {
   },
 
   methods: {
+    showDebug () {
+      this.debugInfo = window.debugInfo.join('<br>')
+      this.showDebugDialog = true
+    },
     async init () {
       if (!this.$store.state.deck.name) {
         const deckList = this.$store.state.deckList

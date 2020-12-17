@@ -26,4 +26,8 @@
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
-</widget>
+    <platform name="ios">    
+        <preference name="scheme" value="app" />
+        <preference name="hostname" value="localhost" />
+    </platform>
+ </widget>

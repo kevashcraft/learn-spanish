@@ -1,7 +1,7 @@
 /bin/build-app
 rm -rf /cordova-ios/*
 cd /cordova-ios
-cordova create spanish com.kevapps.spanish_photo_flash "Spanish"
+cordova create spanish com.kevapps.spanish-photo-flash "Spanish"
 cd spanish
 cordova platform add ios
 cordova plugin add cordova-plugin-file

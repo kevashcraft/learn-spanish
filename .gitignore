@@ -5,7 +5,7 @@ node_modules
 /secrets
 /decks/tmp
 /cordova-ios
-
+/app/dist
 
 # local env files
 .env.local

@@ -17,28 +17,34 @@ let cards = []
 /* global LocalFileSystem */
 
 async function readFile(directory, filename) {
-  return new Promise((resolve, reject) => {
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fs => {
-      fs.root.getDirectory(directory, { create: true }, dir => {
-        dir.getFile(filename, { exclusive: false }, fileEntry => {
-          fileEntry.file(file => {
-            let reader = new FileReader()
-            reader.onloadend = () => {
-              let data = JSON.parse(reader.result)
-              resolve(data)
-            }
-            reader.readAsText(file)
-          }, error => reject('could not read file: ' + error.toString()))
-        }, error => reject('could not open file: ' + error.toString()))
-      }, error => reject('could not open directory: ' + error.toString()))
-    }, error => reject('could not request filesystem: ' + error.toString()))
-  })
+  try {
+    return new Promise((resolve, reject) => {
+      window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fs => {
+        fs.root.getDirectory(directory, { create: true }, dir => {
+          dir.getFile(filename, { exclusive: false }, fileEntry => {
+            fileEntry.file(file => {
+              let reader = new FileReader()
+              reader.onloadend = () => {
+                let data = JSON.parse(reader.result)
+                resolve(data)
+              }
+              reader.readAsText(file)
+            }, error => reject('could not read file: ' + error.toString()))
+          }, error => reject('could not open file: ' + error.toString()))
+        }, error => reject('could not open directory: ' + error.toString()))
+      }, error => reject('could not request filesystem: ' + error.toString()))
+    })
+  } catch (error) {
+    window.debugInfo.push(error.toString())
+  }
 }
 
 async function writeFile (directory, filename, data, isBlob) {
+  window.debugInfo.push('writing-' + directory + ' - ' + filename)
   return new Promise((resolve, reject) => {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fs => {
       fs.root.getDirectory(directory, { create: true }, dir => {
+        window.debugInfo.push('got directory-' + directory + ' - ' + filename)
         dir.getFile(filename, { create: true, exclusive: false }, fileEntry => {
           fileEntry.createWriter(fileWriter => {
               fileWriter.onwriteend = () => resolve(fileEntry.toURL())
@@ -248,8 +254,17 @@ export default new Vuex.Store({
               if (ext === 'jpe') ext = 'jpg'
 
               let blobData = await fetchRes.blob()
-              const fileURL = await writeFile(deck.nameNS, cardKey + ext, blobData, true)
-              deckData[cardKey].image = fileURL
+              const fileURL = await writeFile(deck.nameNS, cardKey + '.' + ext, blobData, true)
+              window.debugInfo.push('Wrote file - ' + fileURL)
+              window.debugInfo.push(1)
+              if (window.WkWebView) {
+                deckData[cardKey].image = window.WkWebView.convertFilePath(fileURL)
+                window.debugInfo.push(2)
+              } else {
+                deckData[cardKey].image = fileURL
+                window.debugInfo.push(3)
+              }
+              window.debugInfo.push('Using file url - ' + deckData[cardKey].image)
             } catch(error) {
               console.log("could not save file", cardKey, error)
             }
