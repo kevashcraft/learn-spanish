@@ -13,6 +13,7 @@
     <WelcomeDialog />
     <FirstTestDialog />
     <TestCompleteDialog />
+    <LicensesDialog />
     <RateUsDialog />
     <AppDownloadSnackbar />
     <v-dialog v-model="showDebugDialog" max-width="350px">
@@ -35,6 +36,7 @@ import DownloadProgress from './components/DownloadProgress'
 import WelcomeDialog from './components/WelcomeDialog'
 import FirstTestDialog from './components/FirstTestDialog'
 import TestCompleteDialog from './components/TestCompleteDialog'
+import LicensesDialog from './components/LicensesDialog'
 import RateUsDialog from './components/RateUsDialog'
 import AppDownloadSnackbar from './components/AppDownloadSnackbar'
 
@@ -53,6 +55,7 @@ export default {
     WelcomeDialog,
     FirstTestDialog,
     TestCompleteDialog,
+    LicensesDialog,
     RateUsDialog,
     AppDownloadSnackbar
   },

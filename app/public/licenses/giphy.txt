@@ -1,0 +1,28 @@
+GIPHY API Terms of Service
+As described in more detail below, we grant you the right to use our API solely to create applications that interface with Giphy. You are responsible for all user support for your application. You must label your application with “Powered by Giphy” and the Giphy logo, and cannot mislead users as to the features of your application or your relationship with Giphy (for example, you cannot imply that we endorse or sponsor your application). We can choose to limit, suspend or terminate your access to the API at any time.
+
+The following terms (the “API Terms”) govern your access and use of the application programming interfaces Giphy. The API shall be considered part of the “Services”. These API Terms hereby incorporate Giphy’s Terms of Service above.
+
+1. API License; Restrictions.
+
+The API, and all intellectual property rights therein, are and shall at all times remain our and our licensors’ sole and exclusive property. Subject to these API Terms, we grant to you a non-exclusive, non-transferable, non-assignable, non-sublicensable, revocable, worldwide, limited, right and license to access and use the API solely to allow for the creation of software applications that interface with Giphy’s products and services (collectively, the "Applications"). You shall not use content you obtain through Giphy’s products and services to create a database, directory, or index containing GIFs or digital stickers or to improve, edit, augment or supplement any existing database, directory, or index containing GIFs or digital stickers. In addition, you shall not commingle Giphy search results with search results of another provider without Giphy's express written approval. You are solely responsible for any Applications that make use of Giphy’s products and services and for providing all support and technical assistance to end users of the Applications. You shall not represent to any of your end users that we are available to provide such support. We reserve the right to deny and/or revoke access to the API at any time, without notice. Your access to and use of the API may be interrupted for the duration of any scheduled, unscheduled, or unanticipated downtime, suspension or other unavailability, for any reason and in our sole discretion.
+
+2. API Limitations.
+
+You agree to respect the programmatic limitations of our API and the restrictions of these API Terms in designing and implementing Applications. In addition, you shall comply with any limitations on the frequency of access, calls and use of the API as provided to you by us from time to time. We expressly reserve the right in our sole discretion to limit the number and/or frequency of the API requests. You acknowledge that we may change or republish the API at any time and that it is your obligation to ensure that calls or requests you make through the Application are compatible with the then-current API. We may attempt to inform you of any changes with reasonable notice so you can adjust your service but we are under no obligation to do so.
+
+3. No Misleading Users.
+
+You may not, under any circumstances, mislead or confuse users as to the features, functionality, origin, or other aspects of an Application, including through an Application description. You shall make sure that your users understand that Applications are not official applications of ours or endorsed by us in any way.
+
+4. Giphy’s Trademarks.
+
+Subject to these API Terms, we grant to you a non-exclusive, non-transferable, non-assignable, non-sublicensable, revocable, worldwide, limited, right and license to use, reproduce, display and distribute Giphy’s trademarks solely in connection with your authorized use of the API. You may not use Giphy’s trademarks in the titles or logos of Applications or other products or services, or in any way that implies our endorsement or sponsorship, or false association with such Applications. You shall (i) conspicuously label any Application with the words "Powered by Giphy," and the Giphy logo, and (ii) comply with the branding requirements that we may provide to you from time to time. For example, you agree not to use the name or logo "Jiffy," "Giffy," or "Gifee", or any similar names or logos, in your Application. You acknowledge and agree that any and all goodwill accruing from the use of Giphy’s trademarks shall inure solely to our benefit and that, other than the limited license granted herein, you have no right, title, or interest in any of Giphy’s trademarks.
+
+5. Attribution.
+
+You agree to properly attribute all pieces of content that you obtain through the API and at no time will you falsely attribute any such content. For the avoidance of doubt, this means that you won’t display any content in your applications without Giphy user and/or source attribution where available.
+
+Contact: You may contact us at the following address: 416 W. 13th Street, Suite 207, New York, NY 10014. If you have any questions about these Terms of Service, you can also contact us here.
+
+Effective Date of Terms of Service: May 23, 2018

@@ -91,9 +91,9 @@
           <v-list-item v-show="!testCompleteDialogEnabled" @click="enableTestDialog">
             <v-list-item-title>Reenable Test Complete Dialog</v-list-item-title>
           </v-list-item>
-          <v-list-item @click="showDebug">
+          <!-- <v-list-item @click="showDebug">
             <v-list-item-title>Expand View</v-list-item-title>
-          </v-list-item>
+          </v-list-item> -->
           <v-divider></v-divider>
           <v-subheader style="color: #2995fe"><strong>Show Images</strong></v-subheader>
           <v-list-item @click="setShowHints('always')">
@@ -146,6 +146,10 @@
               <v-icon v-show="showAnswers === 'never'" color="green">mdi-check</v-icon>
             </v-list-item-icon>
           </v-list-item>
+          <v-divider></v-divider>
+          <v-list-item @click="showLicenses">
+            <v-list-item-title>Licenses</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-menu>
 
@@ -181,6 +185,9 @@ export default {
     ]),
     showDebug () {
       this.$emit('showDebug')
+    },
+    showLicenses () {
+      this.setGeneric({prop: 'dialog', value: 'licenses'})
     },
     getBestScoreStyle(bestScore) {
       if (!bestScore) return {}
