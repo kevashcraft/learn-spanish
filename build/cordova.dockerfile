@@ -2,7 +2,8 @@ FROM node:12.3.1-stretch as builder
 
 RUN echo "hello"
 
-RUN npm i -g @vue/cli cordova cordova-icon cordova-splash
+RUN npm i -g @vue/cli cordova cordova-splash
+RUN npm i -g @vue/cli kevashcraft/cordova-icon#master
 
 RUN apt-get update
 RUN apt-get install -y default-jdk-headless
@@ -23,6 +24,7 @@ RUN cordova telemetry off
 RUN cordova platform add android
 RUN cordova plugin add cordova-plugin-file
 RUN cordova plugin add cordova-plugin-device
+RUN cordova plugin add cordova-plugin-screen-orientation
 RUN cordova build; exit 0
 
 RUN mkdir -p /dist # mounted volume

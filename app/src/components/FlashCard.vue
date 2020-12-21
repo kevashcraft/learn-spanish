@@ -14,9 +14,9 @@
       <v-row v-if="!testMode" class="flex-grow-0 justify-center align-center image">
         <img :class="{blurredimg: blurHint}" v-show="!hideHint" :src="card.image" style="width: 80%; max-height: 80%" draggable="false">
       </v-row>
-      <v-row v-if="testMode" class="flex-grow-0 justify-center align-center" style="margin-top: 50px">
+      <v-row v-if="testMode" class="flex-grow-0 justify-center align-center" style="margin-top: 50px; position: relative">
         <v-col cols="6" class="test-images" v-for="(image, idx) in card.answerOptions" :key="idx" @click="guess(idx)">
-          <img :src="image" draggable="false">
+          <v-img :src="image" draggable="false" class="test-image"></v-img>
         </v-col>
       </v-row>
       <v-row v-if="!testMode" class="flex-grow-0 justify-center align-start answer">
@@ -66,11 +66,24 @@
   // border: 2px dashed red;
   // flex-direction: column;
   justify-content: center;
+  position: relative;
   align-content: center;
-  img {
+  .test-image {
     max-height: 150px;
     max-width: 150px;
     // margin: 25px 0;
+    @media (min-width: 600px) {
+      max-width: 200px;
+    }
+    @media (min-width: 800px) {
+      max-width: 250px;
+    }
+    @media (min-height: 600px) {
+      max-height: 200px;
+    }
+    @media (min-height: 800px) {
+      max-height: 250px;
+    }
   }
 }
 .answer {
